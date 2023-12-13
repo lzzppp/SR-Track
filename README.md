@@ -75,6 +75,15 @@ bash sampling_rate_dance.sh
 We are very grateful to Yifu Zhang, the author of ByteTrack, for open-sourcing a powerful library of pretrained weights for multi-object tracking. For the experiments on the MOT17 and MOT20 datasets, we adopted his open source pre-trained weights. For DanceTrack, we used DanceTrack's official open source YOLOX-based pre-training weights.
 note: The scene of the MOT20 dataset is single and fixed, so its weight is also based on the detector trained by the scene of the MOT17 dataset.
 
+## Training
+
+```shell
+cd ./yolox/sr_tracker
+python train_mann.py --data_name mot_1
+python train_mann.py --data_name mot20_1
+python train_mann.py --data_name dancetrack_1
+```
+
 ## Tracking
 
 * **Experiments on MOT17**
@@ -84,104 +93,9 @@ Run SR-Tracker on MOT17:
 cd <SRTracker_HOME>
 for srate in 1 2 3 4 5 6 7 8 9 10
 do
-    python3 tools/track_dyte.py -f exps/example/mot/yolox_x_ablation_$srate.py -c pretrained/bytetrack_ablation.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate --experiment-name extendkalmanfilter
+    python3 tools/track_dyte.py -f exps/example/mot/yolox_x_ablation_$srate.py -c pretrained/bytetrack_ablation.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate --experiment-name sr_tracker --tracker_path ./yolox/sr_tracker/mot_result/model_14500.pth
 done
 ```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_mot17.sh
-```
-----------
-Run ByteTrack on MOT17:
-```shell
-cd <SRTracker_HOME>
-for srate in 1 2 3 4 5 6 7 8 9 10
-do
-    python3 tools/track.py -f exps/example/mot/yolox_x_ablation_$srate.py -c pretrained/bytetrack_ablation.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate --experiment-name bytetracker
-done
-```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_byte_mot17.sh
-```
-* **Experiments on MOT20**
-
-Run SR-Tracker on MOT20:
-```shell
-cd <SRTracker_HOME>
-for srate in 1 2 3 4 5 6 7 8 9 10
-do
-    python3 tools/track_dyte.py -f exps/example/mot/yolox_x_ablation_20$srate.py \
-    -c pretrained/bytetrack_ablation.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate --experiment-name extendkalmanfilter6_mot20 --mot20 --stdp 0.05 --stdv 0.0125 --stda 0.00025
-done
-```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_mot20.sh
-```
-----------
-Run ByteTrack on MOT20:
-```shell
-cd <SRTracker_HOME>
-for srate in 1 2 3 4 5 6 7 8 9 10
-do
-    python3 tools/track.py -f exps/example/mot/yolox_x_ablation_20$srate.py \
-    -c pretrained/bytetrack_ablation.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate \
-    --experiment-name bytetracker_mot20 --mot20
-done
-```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_byte_mot20.sh
-```
-* **Experiments on DanceTrack**
-
-Run SR-Tracker on MOT17:
-```shell
-cd <SRTracker_HOME>
-for srate in 1 2 3 4 5 6 7 8 9 10
-do
-    python3 tools/track_dyte.py -f exps/example/dance/yolox_x_ablation_$srate.py \
-    -c pretrained/bytetrack_model.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate --experiment-name extendkalmanfilter6_dancetrack --dance \
-    --stdp 0.25 --stda 0.015 --match_thresh_d1 1.0
-done
-
-```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_dance.sh
-```
-----------
-Run ByteTrack on MOT17:
-```shell
-cd <SRTracker_HOME>
-for srate in 1 2 3 4 5 6 7 8 9 10
-do
-    python3 tools/track.py -f exps/example/dance/yolox_x_ablation_$srate.py \
-    -c pretrained/bytetrack_model.pth.tar -b 1 -d 1 --fp16 --fuse -s $srate \
-    --experiment-name bytetracker_dancetrack --dance
-done
-```
-or
-```shell
-cd <SRTracker_HOME>
-bash track_byte_dance.sh
-```
-* **Test on DanceTrack Without Down-Sampling**
-
-```shell
-cd <SRTracker_HOME>
-python3 tools/track_dyte.py -f exps/example/dance/yolox_x_ablation_1.py \
--c pretrained/bytetrack_model.pth.tar -b 1 -d 1 --fp16 --fuse --test -s 1 --experiment-name extendkalmanfilter6_dancetrack_test --dance  \
---stdp 0.25 --stda 0.015 --match_thresh_d1 1.0
-```
-
-Submit the txt files to [DanceTrack](https://codalab.lisn.upsaclay.fr/competitions/5830#participate) website and you can get 59+ HOTA (For higher MOTA, you need to carefully tune the test image size and high score detection threshold of each sequence).
 
 ## Evaluation
 We have given the label in the TrackEval format and stored it in an anonymous network disk. The link is as follows: [Link](https://ufile.io/xfexrkjr). Put him under the folder called *data* of our TrackEval.
@@ -192,10 +106,10 @@ If you want to run the tracking code and test code as a whole, you can follow th
 cd <SRTracker_HOME>
 bash track_mot17.sh
 cd <TrackEval_HOME>
-python scripts/build_track_dataset.py --tracker_name extendkalmanfilter --inputfile_folder your_root/SRTracker/YOLOX_outputs
+python scripts/build_track_dataset.py --tracker_name sr_tracker --inputfile_folder your_root/SRTracker/YOLOX_outputs
 for srate in 2 3 4 5 6 7 8 9 10
 do
-    python scripts/run_srate_mot_challenge.py --BENCHMARK MOT17$srate --change_tracker_name extendkalmanfilter
+    python scripts/run_srate_mot_challenge.py --BENCHMARK MOT17$srate --change_tracker_name sr_tracker
 done
 python scripts/plot_metrix_with_sampling.py
 ```
