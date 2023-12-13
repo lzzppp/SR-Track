@@ -1,6 +1,6 @@
 # S(ampling)R(esilient)-Tracker
 
-#### SR-Tracker-WODL is a fast tracker for Sampling-Resilient Multi-Object Tracking without deep learning. The version using deep learning can deal with more exaggerated frame intervals, please see branch 2.
+#### SR-Tracker-WDL is a fast tracker for Sampling-Resilient Multi-Object Tracking with deep learning. The version that does not use deep learning can be lighter, please see the main branch.
 
 ## Abstract
 
