@@ -5,7 +5,7 @@
 ## Tracking performance
 
 ### Results on the Down-Sampled MOT17 Benchmark Datasets
-![avatar](./figs/Introduction_HOTA.pdf)
+![avatar](./figs/Introduction_HOTA.png)
 
 
 ## Installation
