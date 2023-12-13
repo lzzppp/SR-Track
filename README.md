@@ -211,9 +211,6 @@ cd <TrackEval_HOME>
 bash test_mot17.sh
 ```
 
-## Combining Enhanced Kalman Filter (EKF) with other detectors
-After the work is completed, we will open source the series of work.
-
 ## Thanks for follow works!
 Here are the jobs that have helped us a lot:
 
