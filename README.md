@@ -2,16 +2,10 @@
 
 #### SR-Tracker-WDL is a fast tracker for Sampling-Resilient Multi-Object Tracking with deep learning. The version that does not use deep learning can be lighter, please see the main branch.
 
-## Abstract
-
-Multi-object tracking (MOT) is a cornerstone operator to support video surveillance or analytical tasks. To process large-scale live video streams in real time, there is critical demand for an efficient and accurate tracking mechanism. In this paper, we study a new scenario called down-sampled multi-object tracking, which performs object detection and association only upon a subset of video frames, to improve efficiency with tolerable accuracy decline.
-The problem is challenging — directly applying state-of-the-art MOT methods on the down-sampled video frames results in significant performance degradation.To devise a sampling-resilient tracker, we make the following contributions.First, we propose an enhanced Kalman filter with more informative state representation and dynamic parameter matrix update mechanism to reduce the divergence between observations and internal state prediction. Second, to associate the detected bounding boxes robustly, we propose a comprehensive similarity metric that systematically integrates multiple spatial matching signals.
-Experiments on three benchmark datasets show that our proposed tracker is the most suitable for real-time tracking and achieves the best trade-off between efficiency and accuracy.Compared with ByteTrack, we can further reduce the processing time by 2 × *in* MOT17 and 3 × *in* DanceTrack and reach the same level of tracking accuracy
-
 ## Tracking performance
 
-### Results on three Down-Sampled Benchmark Datasets
-![avatar](./figs/sampling_resilient.png)
+### Results on the Down-Sampled MOT17 Benchmark Datasets
+![avatar](./figs/Introduction_HOTA.pdf)
 
 
 ## Installation
